@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Dashboard } from './components/Dashboard';
 import { ClientManager } from './components/ClientManager';
 import { ProjectExplorer } from './components/ProjectExplorer';
-import AiAssistant from './components/AiAssistant';
+import { NextGenAiAssistant } from './components/NextGenAiAssistant';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AIProvider } from './contexts/AIContext';
 import { AuthPage } from './components/auth/AuthPage';
 import { INITIAL_CLIENTS } from './constants';
 import { Icon } from './components/Icon';
@@ -38,7 +39,7 @@ const AppContent: React.FC = () => {
       case 'projects':
         return <ProjectExplorer />;
       case 'ai':
-        return <AiAssistant />;
+        return <NextGenAiAssistant />;
       default:
         return <Dashboard clients={INITIAL_CLIENTS} onNavigate={(view) => setActiveView(view as View)}/>;
     }
@@ -138,7 +139,9 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <AuthWrapper />
+      <AIProvider>
+        <AuthWrapper />
+      </AIProvider>
     </AuthProvider>
   );
 };
