@@ -1,9 +1,10 @@
-
 import React, { useState } from 'react';
 import { Dashboard } from './components/Dashboard';
 import { ClientManager } from './components/ClientManager';
 import { ProjectExplorer } from './components/ProjectExplorer';
 import AiAssistant from './components/AiAssistant';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AuthPage } from './components/auth/AuthPage';
 import { INITIAL_CLIENTS } from './constants';
 import { Icon } from './components/Icon';
 
@@ -22,9 +23,11 @@ const NavItem: React.FC<{ icon: React.ReactNode; label: string; isActive: boolea
   </button>
 );
 
-const App: React.FC = () => {
+// Main App Content Component (after authentication)
+const AppContent: React.FC = () => {
   const [activeView, setActiveView] = useState<View>('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   const renderView = () => {
     switch (activeView) {
@@ -75,14 +78,23 @@ const App: React.FC = () => {
           icon={<Icon path="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.572L16.25 21l-.648-.428a2.25 2.25 0 01-1.423-2.43l.428-2.015-.001-.002z" />}
         />
       </nav>
-      <div className="p-4 mt-auto">
-        <div className="flex items-center">
-            <img src="https://picsum.photos/seed/avatar/40/40" alt="Avatar" className="w-10 h-10 rounded-full"/>
+      <div className="p-4 mt-auto border-t">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center">
+            <img src={user?.avatar || "https://picsum.photos/seed/avatar/40/40"} alt="Avatar" className="w-10 h-10 rounded-full"/>
             <div className="ml-3">
-                <p className="font-semibold text-gray-800">Trần Minh</p>
-                <p className="text-sm text-gray-500">Sales Executive</p>
+                <p className="font-semibold text-gray-800 text-sm">{user?.name}</p>
+                <p className="text-xs text-gray-500">{user?.role}</p>
             </div>
+          </div>
         </div>
+        <button
+          onClick={logout}
+          className="w-full flex items-center px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+        >
+          <Icon path="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" className="w-4 h-4 mr-2" />
+          Đăng xuất
+        </button>
       </div>
     </>
   );
@@ -120,6 +132,28 @@ const App: React.FC = () => {
       </main>
     </div>
   );
+};
+
+// Main App Component with Authentication
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <AuthWrapper />
+    </AuthProvider>
+  );
+};
+
+// Wrapper component to handle authentication state
+const AuthWrapper: React.FC = () => {
+  const { user } = useAuth();
+  
+  // Show auth page if not logged in
+  if (!user) {
+    return <AuthPage />;
+  }
+  
+  // Show main app if logged in
+  return <AppContent />;
 };
 
 export default App;
