@@ -204,51 +204,10 @@ export const NextGenAiAssistant: React.FC = () => {
         position="bottom-left"
       />
 
-      {/* Enhanced Header */}
-      <div className="fixed top-0 left-0 right-0 z-40 glass-morphism border-b backdrop-blur-xl">
-        <div className="flex items-center justify-between px-6 py-4">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={toggleSidebar}
-              className="lg:hidden p-2 rounded-lg hover:bg-white/20 transition-all"
-            >
-              <Icon path="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" className="w-6 h-6" />
-            </button>
-            
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center animate-gradient">
-                <Icon path="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gradient">NextGen AI</h1>
-                <p className="text-sm text-gray-600">Trợ lý BĐS thông minh</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 glass-morphism px-4 py-2 rounded-full">
-              <div className={`w-2 h-2 rounded-full ${state.isTyping ? 'bg-yellow-500 animate-pulse' : 'bg-green-500'}`} />
-              <span className="text-xs font-medium text-gray-700">
-                {state.isTyping ? 'AI đang suy nghĩ...' : 'Sẵn sàng'}
-              </span>
-            </div>
-            
-            <div className="flex items-center space-x-1">
-              <img 
-                src={user?.avatar || "https://picsum.photos/seed/avatar/40/40"} 
-                alt="Avatar" 
-                className="w-10 h-10 rounded-full border-2 border-white/50 hover-lift"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Sidebar */}
       <div className={`fixed lg:relative inset-y-0 left-0 bg-white/30 backdrop-blur-xl shadow-2xl transition-all duration-300 ease-in-out z-30 ${
         state.sidebarCollapsed ? '-translate-x-full lg:w-20' : 'translate-x-0 w-80'
-      } lg:translate-x-0 flex flex-col mt-20 lg:mt-0`}>
+      } lg:translate-x-0 flex flex-col`}>
         
         {/* Categories */}
         <div className="p-6 border-b border-white/20">
@@ -334,7 +293,7 @@ export const NextGenAiAssistant: React.FC = () => {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {/* Active Tool Header */}
-        <div className={`p-6 mt-20 lg:mt-0 glass-morphism border-b backdrop-blur-xl ${activeTool.gradient} bg-opacity-10`}>
+        <div className={`p-6 glass-morphism border-b backdrop-blur-xl ${activeTool.gradient} bg-opacity-10`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className={`w-16 h-16 rounded-2xl ${activeTool.gradient} flex items-center justify-center shadow-xl animate-float`}>

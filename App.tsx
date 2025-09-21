@@ -3,8 +3,10 @@ import { Dashboard } from './components/Dashboard';
 import { ClientManager } from './components/ClientManager';
 import { ProjectExplorer } from './components/ProjectExplorer';
 import { NextGenAiAssistant } from './components/NextGenAiAssistant';
+import { EnhancedDashboard } from './components/EnhancedDashboard';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AIProvider } from './contexts/AIContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthPage } from './components/auth/AuthPage';
 import { INITIAL_CLIENTS } from './constants';
 import { Icon } from './components/Icon';
@@ -33,7 +35,7 @@ const AppContent: React.FC = () => {
   const renderView = () => {
     switch (activeView) {
       case 'dashboard':
-        return <Dashboard clients={INITIAL_CLIENTS} onNavigate={(view) => setActiveView(view as View)}/>;
+        return <EnhancedDashboard clients={INITIAL_CLIENTS} onNavigate={(view) => setActiveView(view as View)}/>;
       case 'clients':
         return <ClientManager />;
       case 'projects':
@@ -41,7 +43,7 @@ const AppContent: React.FC = () => {
       case 'ai':
         return <NextGenAiAssistant />;
       default:
-        return <Dashboard clients={INITIAL_CLIENTS} onNavigate={(view) => setActiveView(view as View)}/>;
+        return <EnhancedDashboard clients={INITIAL_CLIENTS} onNavigate={(view) => setActiveView(view as View)}/>;
     }
   };
   
@@ -138,11 +140,13 @@ const AppContent: React.FC = () => {
 // Main App Component with Authentication
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <AIProvider>
-        <AuthWrapper />
-      </AIProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <AIProvider>
+          <AuthWrapper />
+        </AIProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 
